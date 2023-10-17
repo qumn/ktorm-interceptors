@@ -1,6 +1,6 @@
-package io.github.qumn.ktorm.interceptor
+package io.github.qumn.interceptor
 
-import io.github.qumn.ktorm.base.LOGICAL_DELETED_COLUMN
+import io.github.qumn.base.LOGICAL_DELETED_COLUMN
 import org.ktorm.dsl.and
 import org.ktorm.expression.*
 import org.ktorm.schema.BooleanSqlType

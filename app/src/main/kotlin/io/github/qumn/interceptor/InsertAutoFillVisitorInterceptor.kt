@@ -1,6 +1,6 @@
-package io.github.qumn.ktorm.interceptor
+package io.github.qumn.interceptor
 
-import io.github.qumn.ktorm.base.INSERT_FILL_COLUMNS
+import io.github.qumn.base.INSERT_FILL_COLUMNS
 import org.ktorm.expression.InsertExpression
 import org.ktorm.expression.SqlExpression
 import org.ktorm.expression.SqlExpressionVisitor

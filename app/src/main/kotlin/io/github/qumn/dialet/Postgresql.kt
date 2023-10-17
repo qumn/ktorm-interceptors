@@ -1,4 +1,4 @@
-package io.github.qumn.ktorm.dialet
+package io.github.qumn.dialet
 
 import org.ktorm.database.Database
 import org.ktorm.expression.*

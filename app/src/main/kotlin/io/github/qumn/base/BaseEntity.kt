@@ -1,6 +1,6 @@
-package io.github.qumn.ktorm.base
+package io.github.qumn.base
 
-import io.github.qumn.ktorm.interceptor.ColumnGenerateFillValue
+import io.github.qumn.interceptor.ColumnGenerateFillValue
 import org.ktorm.dsl.Query
 import org.ktorm.entity.Entity
 import org.ktorm.entity.EntitySequence

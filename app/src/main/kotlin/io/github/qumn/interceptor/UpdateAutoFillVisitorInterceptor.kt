@@ -1,6 +1,6 @@
-package io.github.qumn.ktorm.interceptor
+package io.github.qumn.interceptor
 
-import io.github.qumn.ktorm.base.UPDATE_FILL_COLUMNS
+import io.github.qumn.base.UPDATE_FILL_COLUMNS
 import org.ktorm.expression.*
 
 class UpdateAutoFillVisitorInterceptor : SqlExpressionVisitorInterceptor {
@@ -9,7 +9,7 @@ class UpdateAutoFillVisitorInterceptor : SqlExpressionVisitorInterceptor {
             return null
         }
         val autoFillColumns =
-            expr.table.extraProperties.get(UPDATE_FILL_COLUMNS) as Array<ColumnGenerateFillValue<Any>>? ?: return null
+            expr.table.extraProperties[UPDATE_FILL_COLUMNS] as Array<ColumnGenerateFillValue<Any>>? ?: return null
 
         val assignments = addAutoFillAssignments(expr.assignments, autoFillColumns, expr.table)
 

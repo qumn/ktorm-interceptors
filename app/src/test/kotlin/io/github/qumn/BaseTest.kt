@@ -1,10 +1,10 @@
-import io.github.qumn.ktorm.base.BaseEntity
-import io.github.qumn.ktorm.base.BaseTable
-import io.github.qumn.ktorm.dialet.KtAdmPostgreSqlDialect
-import io.github.qumn.ktorm.interceptor.CompositorVisitorInterceptor
-import io.github.qumn.ktorm.interceptor.InsertAutoFillVisitorInterceptor
-import io.github.qumn.ktorm.interceptor.LogicalVisitorInterceptor
-import io.github.qumn.ktorm.interceptor.UpdateAutoFillVisitorInterceptor
+import io.github.qumn.base.BaseEntity
+import io.github.qumn.base.BaseTable
+import io.github.qumn.dialet.KtAdmPostgreSqlDialect
+import io.github.qumn.interceptor.CompositorVisitorInterceptor
+import io.github.qumn.interceptor.InsertAutoFillVisitorInterceptor
+import io.github.qumn.interceptor.LogicalVisitorInterceptor
+import io.github.qumn.interceptor.UpdateAutoFillVisitorInterceptor
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.ktorm.database.Database
@@ -32,7 +32,12 @@ abstract class BaseTest {
         val dialect = KtAdmPostgreSqlDialect(interceptor)
 
         database =
-            Database.connect("jdbc:h2:mem:ktorm;DB_CLOSE_DELAY=-1", logger = ConsoleLogger(threshold = LogLevel.DEBUG), alwaysQuoteIdentifiers = true, dialect = dialect)
+            Database.connect(
+                "jdbc:h2:mem:ktorm;DB_CLOSE_DELAY=-1",
+                logger = ConsoleLogger(threshold = LogLevel.DEBUG),
+                alwaysQuoteIdentifiers = true,
+                dialect = dialect
+            )
         execSqlScript("init-data.sql")
     }
 
@@ -79,10 +84,18 @@ abstract class BaseTest {
         var hireDate: LocalDate
         var salary: Long
         var department: Department
+        var position: Position
         val upperName get() = name.uppercase()
         fun upperName() = name.uppercase()
         fun nameWithPrefix(prefix: String) = prefix + name
         fun nameWithSuffix(suffix: String) = name + suffix
+    }
+
+    interface Position : BaseEntity<Position> {
+        companion object : Entity.Factory<Position>()
+
+        var id: Int
+        var name: String
     }
 
     interface Customer : BaseEntity<Customer> {
@@ -118,6 +131,17 @@ abstract class BaseTest {
         val salary = long("salary").bindTo { it.salary }
         val departmentId = int("department_id").references(Departments) { it.department }
         val department = departmentId.referenceTable as Departments
+        val positionId = int("position_id").references(Positions) { it.position }
+        val position = positionId.referenceTable as Positions
+    }
+
+    open class Positions(alias: String?) : BaseTable<Position>("t_position", alias) {
+        companion object : Positions(null)
+
+        override fun aliased(alias: String) = Positions(alias)
+
+        val id = int("id").primaryKey().bindTo { it.id }
+        val name = varchar("name").bindTo { it.name }
     }
 
     open class Customers(alias: String?) : BaseTable<Customer>("t_customer", alias, schema = "company") {

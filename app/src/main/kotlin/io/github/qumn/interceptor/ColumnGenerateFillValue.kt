@@ -1,4 +1,4 @@
-package io.github.qumn.ktorm.interceptor
+package io.github.qumn.interceptor
 
 import org.ktorm.schema.SqlType
 
